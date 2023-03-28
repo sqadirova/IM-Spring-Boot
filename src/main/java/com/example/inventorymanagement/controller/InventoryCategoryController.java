@@ -6,6 +6,7 @@ import com.example.inventorymanagement.repository.InventoryCategoryRepo;
 import com.example.inventorymanagement.service.InventoryCategoryService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/inventory-category")
@@ -26,7 +27,7 @@ public class InventoryCategoryController {
     }
 
     @GetMapping(value = "/{id}")
-    public InventoryCategory getInventoryCategoryByID(@PathVariable("id") int id) {
+    public InventoryCategory getInventoryCategoryByID(@PathVariable("id") UUID id) {
         return inventoryCategoryService.getById(id)
                 .orElseThrow(() -> new DataNotFoundEx("Inventory category with " + id + " is not found!"));
     }
@@ -37,7 +38,7 @@ public class InventoryCategoryController {
     }
 
     @PutMapping(value = "/{id}")
-    public InventoryCategory updateInventoryCategory(@PathVariable("id") int id, @RequestBody InventoryCategory newInvCategory) {
+    public InventoryCategory updateInventoryCategory(@PathVariable("id") UUID id, @RequestBody InventoryCategory newInvCategory) {
         InventoryCategory inventoryCategory = inventoryCategoryRepo.findById(id)
                 .orElseThrow(() -> new DataNotFoundEx("Inventory category not found for update!"));
 

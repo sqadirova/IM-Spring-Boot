@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class InventoryCategoryService {
@@ -24,7 +25,7 @@ public class InventoryCategoryService {
         return inventoryCategoryRepo.findAll();
     }
 
-    public Optional<InventoryCategory> getById(int id) {
+    public Optional<InventoryCategory> getById(UUID id) {
         return inventoryCategoryRepo.findById(id);
     }
 
