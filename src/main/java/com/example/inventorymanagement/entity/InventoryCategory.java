@@ -14,9 +14,10 @@ import javax.persistence.*;
 @Setter
 public class InventoryCategory {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(unique = true)
-    private String inventory_category_name;
+    private String inventoryCategoryName;
+
 }

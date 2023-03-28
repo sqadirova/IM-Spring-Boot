@@ -2,7 +2,6 @@ package com.example.inventorymanagement.service;
 
 import com.example.inventorymanagement.entity.InventoryCategory;
 import com.example.inventorymanagement.repository.InventoryCategoryRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.Optional;
 public class InventoryCategoryService {
     private final InventoryCategoryRepo inventoryCategoryRepo;
 
-    @Autowired
+    //    @Autowired
     public InventoryCategoryService(InventoryCategoryRepo repo) {
         this.inventoryCategoryRepo = repo;
     }
