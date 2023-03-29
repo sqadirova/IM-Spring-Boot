@@ -1,9 +1,6 @@
 package com.example.inventorymanagement.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -13,12 +10,14 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class InventoryCategory {
     @Id
-    @GeneratedValue
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "inventory_category_id")
+    private UUID inventoryCategoryId;
 
-    @Column(unique = true)
+    @Column(name = "inventory_category_name", unique = true, nullable = false)
     private String inventoryCategoryName;
 
 }
