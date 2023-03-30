@@ -32,4 +32,9 @@ public class LogisticCenterService {
         logisticCenterRepo.deleteById(id);
     }
 
+    public List<LogisticCenter> getAllByWarehouseId(UUID warehouseId) {
+        return logisticCenterRepo.findByWarehouse(warehouseId);
+    }
+
+
 }

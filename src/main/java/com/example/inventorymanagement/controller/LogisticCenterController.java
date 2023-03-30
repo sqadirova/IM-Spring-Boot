@@ -4,6 +4,7 @@ import com.example.inventorymanagement.entity.LogisticCenter;
 import com.example.inventorymanagement.expection.DataNotFoundEx;
 import com.example.inventorymanagement.repository.LogisticCenterRepo;
 import com.example.inventorymanagement.service.LogisticCenterService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class LogisticCenterController {
     private final LogisticCenterService logisticCenterService;
     private final LogisticCenterRepo logisticCenterRepo;
 
-    //    @Autowired
+    @Autowired
     public LogisticCenterController(LogisticCenterService logisticCenterService, LogisticCenterRepo logisticCenterRepo) {
         this.logisticCenterService = logisticCenterService;
         this.logisticCenterRepo = logisticCenterRepo;
@@ -28,6 +29,13 @@ public class LogisticCenterController {
     public ResponseEntity<List<LogisticCenter>> getAllLogisticCenters() {
         return new ResponseEntity<>(
                 logisticCenterService.getAll(),
+                HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/by/warehouseId")
+    public ResponseEntity<List<LogisticCenter>> getAllLogisticCentersByWarehouse(@PathVariable("warehouse_id") UUID warehouseId) {
+        return new ResponseEntity<>(
+                logisticCenterService.getAllByWarehouseId(warehouseId),
                 HttpStatus.OK);
     }
 
