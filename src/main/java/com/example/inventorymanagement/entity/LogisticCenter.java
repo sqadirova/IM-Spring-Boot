@@ -1,8 +1,11 @@
 package com.example.inventorymanagement.entity;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -13,12 +16,22 @@ import java.util.UUID;
 @Entity
 public class LogisticCenter {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     @Column(name = "logistic_center_id")
     private UUID logisticCenterId;
 
     @Column(name = "logistic_center_name", unique = true, nullable = false)
     private String logisticCenterName;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private Date createdAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private Date updatedAt;
 
 //    @JsonManagedReference
 //    @ManyToMany(fetch = FetchType.LAZY,

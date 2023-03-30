@@ -3,10 +3,13 @@ package com.example.inventorymanagement.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 
@@ -18,7 +21,7 @@ import java.util.UUID;
 @Entity
 public class Warehouse {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     @Column(name = "warehouse_id")
     private UUID warehouseId;
 
@@ -32,6 +35,15 @@ public class Warehouse {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private LogisticCenter logisticCenter;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private Date createdAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private Date updatedAt;
 
     @ToString.Exclude
     @JsonManagedReference

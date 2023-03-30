@@ -52,5 +52,13 @@ public class InventoryCategoryController {
         return new ResponseEntity<>(updatedInventoryCategory, HttpStatus.OK);
     }
 
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<InventoryCategory> deleteInventoryCategory(@PathVariable("id") UUID id) {
+        InventoryCategory inventoryCategory = inventoryCategoryRepo.findById(id).orElseThrow(() -> new DataNotFoundEx("Inventory category not found for delete!"));
+
+        inventoryCategoryService.deleteById(inventoryCategory.getInventoryCategoryId());
+
+        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+    }
 
 }

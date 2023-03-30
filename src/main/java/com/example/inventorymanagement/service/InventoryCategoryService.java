@@ -29,5 +29,8 @@ public class InventoryCategoryService {
         return inventoryCategoryRepo.findById(id);
     }
 
+    public void deleteById(UUID id) {
+        inventoryCategoryRepo.deleteById(id);
+    }
 
 }
