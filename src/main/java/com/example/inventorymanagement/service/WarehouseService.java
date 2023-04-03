@@ -1,5 +1,6 @@
 package com.example.inventorymanagement.service;
 
+import com.example.inventorymanagement.entity.Location;
 import com.example.inventorymanagement.entity.Warehouse;
 import com.example.inventorymanagement.repository.WarehouseRepo;
 import org.springframework.stereotype.Service;
@@ -31,5 +32,10 @@ public class WarehouseService {
     public void deleteById(UUID id) {
         warehouseRepo.deleteById(id);
     }
+
+    public Optional<Location> getAllLocationsByWarehouse(UUID warehouseId) {
+        return warehouseRepo.findAllLocationsByWarehouseId(warehouseId);
+    }
+
 
 }

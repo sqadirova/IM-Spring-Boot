@@ -37,7 +37,7 @@ public class LogisticCenterController {
     @GetMapping(value = "/by/logisticCenterId")
     public ResponseEntity<Set<Warehouse>> getAllWarehousesByLogCen(@PathVariable("logisticCenterId") UUID logisticCenterId) {
         return new ResponseEntity<>(
-                logisticCenterService.getAllWarehouses(logisticCenterId),
+                logisticCenterService.getAllWarehousesByLogCenId(logisticCenterId),
                 HttpStatus.OK);
     }
 

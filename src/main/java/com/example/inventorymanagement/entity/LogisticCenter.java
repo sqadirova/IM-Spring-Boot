@@ -1,6 +1,7 @@
 package com.example.inventorymanagement.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -36,7 +37,7 @@ public class LogisticCenter {
     private Date updatedAt;
 
     @ToString.Exclude
-    @JsonBackReference
+    @JsonIgnore
     @OneToMany(mappedBy = "logisticCenter", cascade = CascadeType.ALL)
     private Set<Warehouse> warehouses;
 

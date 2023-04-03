@@ -1,6 +1,7 @@
 package com.example.inventorymanagement.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -39,14 +40,13 @@ public class Warehouse {
     private Date updatedAt;
 
     @ToString.Exclude
-    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "logictic_center_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private LogisticCenter logisticCenter;
 
     @ToString.Exclude
-    @JsonManagedReference
+    @JsonIgnore
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(name = "warehouse_location",
             joinColumns = {@JoinColumn(name = "warehouse_id", referencedColumnName = "warehouse_id")},

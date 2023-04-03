@@ -26,7 +26,6 @@ public class Location {
     @Column(name = "location_name", nullable = false)
     private String locationName;
 
-
     @ToString.Exclude
     @JsonBackReference
     @ManyToMany(mappedBy = "locations", cascade = CascadeType.ALL)

@@ -34,7 +34,7 @@ public class LogisticCenterService {
         logisticCenterRepo.deleteById(id);
     }
 
-    public Set<Warehouse> getAllWarehouses(UUID logisticCenterId) {
+    public Set<Warehouse> getAllWarehousesByLogCenId(UUID logisticCenterId) {
         Optional<LogisticCenter> logisticCenter = logisticCenterRepo.findById(logisticCenterId);
 
         if (logisticCenter.isEmpty()) {
