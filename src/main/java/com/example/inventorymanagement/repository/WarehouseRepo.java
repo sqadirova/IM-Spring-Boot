@@ -8,4 +8,7 @@ import java.util.UUID;
 
 @Repository
 public interface WarehouseRepo extends JpaRepository<Warehouse, UUID> {
+//    List<Warehouse> findAllByLogisticCenter(UUID logisticCenterId);
+//
+//    Warehouse findFirstByWarehouseId(UUID warehouseId);
 }

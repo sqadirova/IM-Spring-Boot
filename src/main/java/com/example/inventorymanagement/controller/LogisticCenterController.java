@@ -1,6 +1,7 @@
 package com.example.inventorymanagement.controller;
 
 import com.example.inventorymanagement.entity.LogisticCenter;
+import com.example.inventorymanagement.entity.Warehouse;
 import com.example.inventorymanagement.expection.DataNotFoundEx;
 import com.example.inventorymanagement.repository.LogisticCenterRepo;
 import com.example.inventorymanagement.service.LogisticCenterService;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -32,10 +34,10 @@ public class LogisticCenterController {
                 HttpStatus.OK);
     }
 
-    @GetMapping(value = "/by/warehouseId")
-    public ResponseEntity<List<LogisticCenter>> getAllLogisticCentersByWarehouse(@PathVariable("warehouse_id") UUID warehouseId) {
+    @GetMapping(value = "/by/logisticCenterId")
+    public ResponseEntity<Set<Warehouse>> getAllWarehousesByLogCen(@PathVariable("logisticCenterId") UUID logisticCenterId) {
         return new ResponseEntity<>(
-                logisticCenterService.getAllByWarehouseId(warehouseId),
+                logisticCenterService.getAllWarehouses(logisticCenterId),
                 HttpStatus.OK);
     }
 

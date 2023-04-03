@@ -28,13 +28,6 @@ public class Warehouse {
     @Column(name = "warehouse_name", unique = true, nullable = false)
     private String warehouseName;
 
-    @ToString.Exclude
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "logictic_center_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private LogisticCenter logisticCenter;
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
     @CreationTimestamp
@@ -44,6 +37,13 @@ public class Warehouse {
     @Column(name = "updated_at")
     @UpdateTimestamp
     private Date updatedAt;
+
+    @ToString.Exclude
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "logictic_center_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private LogisticCenter logisticCenter;
 
     @ToString.Exclude
     @JsonManagedReference

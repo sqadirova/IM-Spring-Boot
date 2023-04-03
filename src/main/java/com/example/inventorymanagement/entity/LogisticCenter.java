@@ -1,11 +1,13 @@
 package com.example.inventorymanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -33,13 +35,9 @@ public class LogisticCenter {
     @UpdateTimestamp
     private Date updatedAt;
 
-//    @JsonManagedReference
-//    @ManyToMany(fetch = FetchType.LAZY,
-//            cascade = CascadeType.ALL)
-//    @JoinTable(name = "logistic_center_warehouse",
-//            joinColumns = {@JoinColumn(name = "logistic_center_id", referencedColumnName = "logistic_center_id")},
-//            inverseJoinColumns = {@JoinColumn(name = "warehouse_id", referencedColumnName = "warehouse_id")})
-//    private Set<Warehouse> warehouses;
-
+    @ToString.Exclude
+    @JsonBackReference
+    @OneToMany(mappedBy = "logisticCenter", cascade = CascadeType.ALL)
+    private Set<Warehouse> warehouses;
 
 }

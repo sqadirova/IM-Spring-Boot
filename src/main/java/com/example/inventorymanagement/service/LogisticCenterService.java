@@ -1,11 +1,13 @@
 package com.example.inventorymanagement.service;
 
 import com.example.inventorymanagement.entity.LogisticCenter;
+import com.example.inventorymanagement.entity.Warehouse;
 import com.example.inventorymanagement.repository.LogisticCenterRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -32,8 +34,14 @@ public class LogisticCenterService {
         logisticCenterRepo.deleteById(id);
     }
 
-    public List<LogisticCenter> getAllByWarehouseId(UUID warehouseId) {
-        return logisticCenterRepo.findByWarehouse(warehouseId);
+    public Set<Warehouse> getAllWarehouses(UUID logisticCenterId) {
+        Optional<LogisticCenter> logisticCenter = logisticCenterRepo.findById(logisticCenterId);
+
+        if (logisticCenter.isEmpty()) {
+            return null;
+        }
+
+        return logisticCenter.get().getWarehouses();
     }
 
 
