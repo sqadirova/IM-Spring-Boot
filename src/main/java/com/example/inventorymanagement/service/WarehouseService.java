@@ -33,9 +33,7 @@ public class WarehouseService {
         warehouseRepo.deleteById(id);
     }
 
-    public Optional<Location> getAllLocationsByWarehouse(UUID warehouseId) {
-        return warehouseRepo.findAllLocationsByWarehouseId(warehouseId);
-    }
+
 
 
 }

@@ -25,15 +25,16 @@ public class WarehouseController {
     }
 
 
+//    todo need to be fix error
     @GetMapping
     public ResponseEntity<List<Warehouse>> getAllWarehouses() {
         return new ResponseEntity<>(warehouseService.getAll(), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/location/by/warehouseId")
-    public ResponseEntity<Optional<Location>> getAllLocationsByWarehouse(@PathVariable("warehouseId") UUID warehouseId) {
-        return new ResponseEntity<>(warehouseService.getAllLocationsByWarehouse(warehouseId), HttpStatus.OK);
-    }
+//    @GetMapping(value = "/location/by/warehouseId")
+//    public ResponseEntity<Optional<Location>> getAllLocationsByWarehouse(@PathVariable("warehouseId") UUID warehouseId) {
+//        return new ResponseEntity<>(warehouseService.getAllLocationsByWarehouse(warehouseId), HttpStatus.OK);
+//    }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Warehouse> getWarehouseByID(@PathVariable("id") UUID id) {

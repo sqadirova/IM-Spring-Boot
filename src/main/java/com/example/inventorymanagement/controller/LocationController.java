@@ -2,14 +2,17 @@ package com.example.inventorymanagement.controller;
 
 import com.example.inventorymanagement.dto.WarehouseLocationDTO;
 import com.example.inventorymanagement.entity.Location;
+import com.example.inventorymanagement.entity.Warehouse;
 import com.example.inventorymanagement.expection.DataNotFoundEx;
 import com.example.inventorymanagement.repository.LocationRepo;
+import com.example.inventorymanagement.repository.WarehouseRepo;
 import com.example.inventorymanagement.service.LocationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -17,11 +20,14 @@ import java.util.UUID;
 public class LocationController {
     private final LocationService locationService;
     private final LocationRepo locationRepo;
+    private final WarehouseRepo warehouseRepo;
 
     public LocationController(LocationService locationService,
-                              LocationRepo locationRepo) {
+                              LocationRepo locationRepo,
+                              WarehouseRepo warehouseRepo) {
         this.locationService = locationService;
         this.locationRepo = locationRepo;
+        this.warehouseRepo = warehouseRepo;
     }
 
     @GetMapping
@@ -29,14 +35,15 @@ public class LocationController {
         return new ResponseEntity<>(locationService.getAll(), HttpStatus.OK);
     }
 
-//    @GetMapping(value = "/location/by/warehouseId")
-//    public ResponseEntity<Optional<Location>> getAllLocationsByLocation(@PathVariable("warehouseId") UUID warehouseId) {
-//        return new ResponseEntity<>(locationService.getAllLocationsByLocation(warehouseId), HttpStatus.OK);
-//    }
-
     @GetMapping(value = "/{id}")
     public ResponseEntity<Location> getLocationByID(@PathVariable("id") UUID id) {
         return new ResponseEntity<>(locationService.getById(id).orElseThrow(() -> new DataNotFoundEx("Location with " + id + " is not found!")), HttpStatus.OK);
+    }
+
+    //   todo  need to be test
+    @GetMapping(value = "/by/warehouseId")
+    public ResponseEntity<Optional<Location>> getAllLocationsByWarehouse(@PathVariable("warehouseId") UUID warehouseId) {
+        return new ResponseEntity<>(locationService.getAllLocationsByWarehouse(warehouseId), HttpStatus.OK);
     }
 
     //   todo  need to be test
@@ -50,9 +57,15 @@ public class LocationController {
     @PostMapping(value = "/add_to_warehouse")
     public ResponseEntity<Location> addLocationToWarehouse(@RequestBody WarehouseLocationDTO warehouseLocationDto) {
         //   todo  need to be add mapper to dto
+        Optional<Location> location = locationRepo.findById(warehouseLocationDto.getLocationId());
 
+        Optional<Warehouse> warehouse = warehouseRepo.findById(warehouseLocationDto.getWarehouseId());
 
-        return new ResponseEntity<>(null, HttpStatus.CREATED);
+        warehouse.get().addLocation(location.get());
+        System.out.println(warehouse);
+        //todo add error handling
+
+        return new ResponseEntity<>(location.get(), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
