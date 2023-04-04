@@ -58,7 +58,7 @@ public class InventoryCategoryController {
 
         inventoryCategoryService.deleteById(inventoryCategory.getInventoryCategoryId());
 
-        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

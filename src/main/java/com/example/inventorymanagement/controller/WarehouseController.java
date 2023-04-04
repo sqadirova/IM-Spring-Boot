@@ -40,7 +40,7 @@ public class WarehouseController {
         return new ResponseEntity<>(warehouseService.getById(id).orElseThrow(() -> new DataNotFoundEx("Warehouse with " + id + " is not found!")), HttpStatus.OK);
     }
 
-//   todo  need to testing
+    //   todo  need to be add mapper to dto
     @PostMapping
     public ResponseEntity<Warehouse> createWarehouse(@RequestBody Warehouse warehouse) {
         //logistic_center_id ???
@@ -67,7 +67,7 @@ public class WarehouseController {
 
         warehouseService.deleteById(warehouse.getWarehouseId());
 
-        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 

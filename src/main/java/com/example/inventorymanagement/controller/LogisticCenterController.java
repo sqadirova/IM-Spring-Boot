@@ -72,7 +72,7 @@ public class LogisticCenterController {
 
         logisticCenterService.deleteById(logisticCenter.getLogisticCenterId());
 
-        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 

@@ -1,6 +1,5 @@
 package com.example.inventorymanagement.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -38,7 +37,7 @@ public class LogisticCenter {
 
     @ToString.Exclude
     @JsonIgnore
-    @OneToMany(mappedBy = "logisticCenter", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "logisticCenter", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Warehouse> warehouses;
 
 }
