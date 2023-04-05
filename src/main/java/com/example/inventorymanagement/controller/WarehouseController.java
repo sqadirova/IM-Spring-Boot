@@ -25,9 +25,10 @@ public class WarehouseController {
     }
 
 
-//    todo need to be fix error
     @GetMapping
     public ResponseEntity<List<Warehouse>> getAllWarehouses() {
+        System.out.println("---Warehouses: ");
+        System.out.println(warehouseService.getAll());
         return new ResponseEntity<>(warehouseService.getAll(), HttpStatus.OK);
     }
 
@@ -38,7 +39,10 @@ public class WarehouseController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Warehouse> getWarehouseByID(@PathVariable("id") UUID id) {
-        return new ResponseEntity<>(warehouseService.getById(id).orElseThrow(() -> new DataNotFoundEx("Warehouse with " + id + " is not found!")), HttpStatus.OK);
+        Warehouse warehouse = warehouseService.getById(id).orElseThrow(() -> new DataNotFoundEx("Warehouse with " + id + " is not found!"));
+//        System.out.println(warehouse.getLogisticCenter());
+//        System.out.println(warehouse.getLocations());
+        return new ResponseEntity<>(warehouse, HttpStatus.OK);
     }
 
     //   todo  need to be add mapper to dto

@@ -1,5 +1,6 @@
 package com.example.inventorymanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -17,6 +18,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
+@Data
 @Entity
 public class Warehouse {
     @Id
@@ -38,14 +40,15 @@ public class Warehouse {
     private Date updatedAt;
 
     @ToString.Exclude
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "logistic_center_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private LogisticCenter logisticCenter;
 
     @ToString.Exclude
     @JsonIgnore
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JoinTable(name = "warehouse_location",
             joinColumns = {@JoinColumn(name = "warehouse_id", referencedColumnName = "warehouse_id")},
             inverseJoinColumns = {@JoinColumn(name = "location_id", referencedColumnName = "location_id")})

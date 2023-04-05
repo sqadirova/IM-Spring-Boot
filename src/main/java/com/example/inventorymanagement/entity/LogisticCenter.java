@@ -37,7 +37,7 @@ public class LogisticCenter {
 
     @ToString.Exclude
     @JsonIgnore
-    @OneToMany(mappedBy = "logisticCenter", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "logisticCenter", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Warehouse> warehouses;
 
 }

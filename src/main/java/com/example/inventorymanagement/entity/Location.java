@@ -28,8 +28,7 @@ public class Location {
 
     @ToString.Exclude
     @JsonBackReference
-    @ManyToMany(mappedBy = "locations", cascade = CascadeType.ALL)
-//    @JsonIgnore
+    @ManyToMany(mappedBy = "locations", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
     private Set<Warehouse> warehouses = new HashSet<>();
 
     @Temporal(TemporalType.TIMESTAMP)

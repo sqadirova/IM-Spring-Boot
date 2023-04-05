@@ -61,8 +61,9 @@ public class LocationController {
 
         Optional<Warehouse> warehouse = warehouseRepo.findById(warehouseLocationDto.getWarehouseId());
 
+        //todo fix problem, don't save data to third table
         warehouse.get().addLocation(location.get());
-        System.out.println(warehouse);
+        System.out.println(warehouse.get().getLocations());
         //todo add error handling
 
         return new ResponseEntity<>(location.get(), HttpStatus.CREATED);
