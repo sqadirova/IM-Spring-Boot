@@ -18,7 +18,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
-@Data
 @Entity
 public class Warehouse {
     @Id
@@ -54,7 +53,7 @@ public class Warehouse {
             inverseJoinColumns = {@JoinColumn(name = "location_id", referencedColumnName = "location_id")})
     private Set<Location> locations;
 
-
+    //todo fix this methods
     public void addLocation(Location loc) {
         this.locations.add(loc);
         loc.getWarehouses().add(this);

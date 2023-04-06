@@ -62,9 +62,10 @@ public class LocationController {
         Optional<Warehouse> warehouse = warehouseRepo.findById(warehouseLocationDto.getWarehouseId());
 
         //todo fix problem, don't save data to third table
+        //todo Warning:'Optional.get()' without 'isPresent()' check
         warehouse.get().addLocation(location.get());
         System.out.println(warehouse.get().getLocations());
-        //todo add error handling
+        //todo add error handling try-catch-finally??
 
         return new ResponseEntity<>(location.get(), HttpStatus.CREATED);
     }
