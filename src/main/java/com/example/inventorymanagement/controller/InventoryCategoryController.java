@@ -4,6 +4,8 @@ import com.example.inventorymanagement.entity.InventoryCategory;
 import com.example.inventorymanagement.expection.DataNotFoundEx;
 import com.example.inventorymanagement.repository.InventoryCategoryRepo;
 import com.example.inventorymanagement.service.InventoryCategoryService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +16,14 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/inventory-category")
 public class InventoryCategoryController {
-    private final InventoryCategoryService inventoryCategoryService;
-    private final InventoryCategoryRepo inventoryCategoryRepo;
+    private static final Logger LOGGER = LoggerFactory.getLogger(InventoryCategoryController.class);
 
     //    @Autowired
+    //without final key
+    private final InventoryCategoryService inventoryCategoryService;
+    //    @Autowired
+    private final InventoryCategoryRepo inventoryCategoryRepo;
+
     public InventoryCategoryController(InventoryCategoryService inventoryCategoryService, InventoryCategoryRepo inventoryCategoryRepo) {
         this.inventoryCategoryService = inventoryCategoryService;
         this.inventoryCategoryRepo = inventoryCategoryRepo;
@@ -49,6 +55,8 @@ public class InventoryCategoryController {
 
         InventoryCategory updatedInventoryCategory = inventoryCategoryService.save(inventoryCategory);
 
+        LOGGER.info("INVENTORY CATEGORY UPDATED!");
+
         return new ResponseEntity<>(updatedInventoryCategory, HttpStatus.OK);
     }
 
@@ -57,6 +65,8 @@ public class InventoryCategoryController {
         InventoryCategory inventoryCategory = inventoryCategoryRepo.findById(id).orElseThrow(() -> new DataNotFoundEx("Inventory category not found for delete!"));
 
         inventoryCategoryService.deleteById(inventoryCategory.getInventoryCategoryId());
+
+        LOGGER.info("INVENTORY CATEGORY DELETED!");
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

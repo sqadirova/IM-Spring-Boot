@@ -4,6 +4,8 @@ import com.example.inventorymanagement.entity.Inventory;
 import com.example.inventorymanagement.expection.DataNotFoundEx;
 import com.example.inventorymanagement.repository.InventoryRepo;
 import com.example.inventorymanagement.service.InventoryService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,8 @@ import java.util.UUID;
 @RestController
 @RequestMapping(value = "/api/v1/inventory")
 public class InventoryController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(InventoryController.class);
+
     private final InventoryService inventoryService;
     private final InventoryRepo inventoryRepo;
 
@@ -66,6 +70,7 @@ public class InventoryController {
     public ResponseEntity<String> deleteInventory(@PathVariable("id") UUID id) {
         Inventory inventoryForDelete = inventoryRepo.findById(id).orElseThrow(() -> new DataNotFoundEx("Inventory with " + id + " is not found!"));
 
+        LOGGER.info("Contact Administrator to delete inventory.");
         return new ResponseEntity<>("Contact Administrator to delete inventory with this id: " + inventoryForDelete.getInventoryId(), HttpStatus.BAD_REQUEST);
     }
 }
