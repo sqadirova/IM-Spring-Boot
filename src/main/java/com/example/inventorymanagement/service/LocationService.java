@@ -38,9 +38,9 @@ public class LocationService {
         locationRepo.deleteById(id);
     }
 
-    public Optional<Location> getAllLocationsByWarehouse(UUID warehouseId) {
-        return warehouseRepo.findAllLocationsByWarehouseId(warehouseId);
-    }
+//    public Optional<Location> getAllLocationsByWarehouse(UUID warehouseId) {
+//        return warehouseRepo.findAllLocationsByWarehouseId(warehouseId);
+//    }
 
 
 }

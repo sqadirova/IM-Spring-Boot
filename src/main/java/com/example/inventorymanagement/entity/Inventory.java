@@ -11,6 +11,8 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.UUID;
 
+//todo need to add swagger to project
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

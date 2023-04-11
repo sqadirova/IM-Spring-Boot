@@ -1,8 +1,6 @@
 package com.example.inventorymanagement.controller;
 
-import com.example.inventorymanagement.dto.WarehouseLocationDTO;
 import com.example.inventorymanagement.entity.Location;
-import com.example.inventorymanagement.entity.Warehouse;
 import com.example.inventorymanagement.expection.DataNotFoundEx;
 import com.example.inventorymanagement.repository.LocationRepo;
 import com.example.inventorymanagement.repository.WarehouseRepo;
@@ -12,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -41,10 +38,10 @@ public class LocationController {
     }
 
     //   todo  need to be test
-    @GetMapping(value = "/by/warehouseId")
-    public ResponseEntity<Optional<Location>> getAllLocationsByWarehouse(@PathVariable("warehouseId") UUID warehouseId) {
-        return new ResponseEntity<>(locationService.getAllLocationsByWarehouse(warehouseId), HttpStatus.OK);
-    }
+//    @GetMapping(value = "/by/warehouseId")
+//    public ResponseEntity<Optional<Location>> getAllLocationsByWarehouse(@PathVariable("warehouseId") UUID warehouseId) {
+//        return new ResponseEntity<>(locationService.getAllLocationsByWarehouse(warehouseId), HttpStatus.OK);
+//    }
 
     //   todo  need to be test
     @PostMapping
@@ -54,21 +51,21 @@ public class LocationController {
         return new ResponseEntity<>(createdLocation, HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/add_to_warehouse")
-    public ResponseEntity<Location> addLocationToWarehouse(@RequestBody WarehouseLocationDTO warehouseLocationDto) {
-        //   todo  need to be add mapper to dto
-        Optional<Location> location = locationRepo.findById(warehouseLocationDto.getLocationId());
-
-        Optional<Warehouse> warehouse = warehouseRepo.findById(warehouseLocationDto.getWarehouseId());
-
-        //todo fix problem, don't save data to third table
-        //todo Warning:'Optional.get()' without 'isPresent()' check
-        warehouse.get().addLocation(location.get());
-        System.out.println(warehouse.get().getLocations());
-        //todo add error handling try-catch-finally??
-
-        return new ResponseEntity<>(location.get(), HttpStatus.CREATED);
-    }
+//    @PostMapping(value = "/add_to_warehouse")
+//    public ResponseEntity<Location> addLocationToWarehouse(@RequestBody WarehouseLocationDTO warehouseLocationDto) {
+//        //   todo  need to be add mapper to dto
+//        Optional<Location> location = locationRepo.findById(warehouseLocationDto.getLocationId());
+//
+//        Optional<Warehouse> warehouse = warehouseRepo.findById(warehouseLocationDto.getWarehouseId());
+//
+//        //todo fix problem, don't save data to third table
+//        //todo Warning:'Optional.get()' without 'isPresent()' check
+//        warehouse.get().addLocation(location.get());
+//        System.out.println(warehouse.get().getLocations());
+//        //todo add error handling try-catch-finally??
+//
+//        return new ResponseEntity<>(location.get(), HttpStatus.CREATED);
+//    }
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<Location> updateLocation(@PathVariable("id") UUID id, @RequestBody Location newLocation) {

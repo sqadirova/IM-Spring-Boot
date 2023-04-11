@@ -1,10 +1,12 @@
 package com.example.inventorymanagement.controller;
 
-import com.example.inventorymanagement.entity.Location;
+import com.example.inventorymanagement.dto.request.WarehouseLocationRequestDTO;
 import com.example.inventorymanagement.entity.Warehouse;
 import com.example.inventorymanagement.expection.DataNotFoundEx;
 import com.example.inventorymanagement.repository.WarehouseRepo;
 import com.example.inventorymanagement.service.WarehouseService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,8 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/warehouse")
 public class WarehouseController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(WarehouseController.class);
+
     private final WarehouseService warehouseService;
     private final WarehouseRepo warehouseRepo;
 
@@ -27,15 +31,21 @@ public class WarehouseController {
 
     @GetMapping
     public ResponseEntity<List<Warehouse>> getAllWarehouses() {
-        System.out.println("---Warehouses: ");
-        System.out.println(warehouseService.getAll());
         return new ResponseEntity<>(warehouseService.getAll(), HttpStatus.OK);
     }
 
-//    @GetMapping(value = "/location/by/warehouseId")
-//    public ResponseEntity<Optional<Location>> getAllLocationsByWarehouse(@PathVariable("warehouseId") UUID warehouseId) {
-//        return new ResponseEntity<>(warehouseService.getAllLocationsByWarehouse(warehouseId), HttpStatus.OK);
-//    }
+    @GetMapping(value = "/myLocations")
+//    @ResponseBody
+    public ResponseEntity<?> getLocationsOfWarehouse(@PathVariable("warehouseId") UUID warehouseId) {
+//        Optional<Location> allLocationsByWarehouseId = warehouseRepo.findAllLocationsByWarehouseId(warehouseId);
+        Optional<Warehouse> warehouse = warehouseRepo.findById(warehouseId);
+        System.out.println(warehouse.get().getLocations());
+
+        LOGGER.info("---locations: ");
+        System.out.println(warehouse.get().getLocations());
+
+        return new ResponseEntity<>(warehouse.get().getLocations(), HttpStatus.OK);
+    }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Warehouse> getWarehouseByID(@PathVariable("id") UUID id) {
@@ -52,6 +62,19 @@ public class WarehouseController {
         //logistic_center_id ???
         Warehouse createdWarehouse = warehouseService.save(warehouse);
         return new ResponseEntity<>(createdWarehouse, HttpStatus.CREATED);
+    }
+
+
+    @PostMapping(value = "/add_location")
+    public ResponseEntity<String> createWarehouseLocation(@RequestBody WarehouseLocationRequestDTO warehouseLocationRequestDto) {
+        boolean isCreated = warehouseService.createWarehouseLocationRelation(warehouseLocationRequestDto);
+
+        //todo add error handling and response format
+        if (!isCreated) {
+            return new ResponseEntity<>("Warehouse-Location relation can not created", HttpStatus.CONFLICT);
+        }
+
+        return new ResponseEntity<>("Warehouse-Location relation was created", HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
@@ -71,9 +94,15 @@ public class WarehouseController {
     public ResponseEntity<Warehouse> deleteWarehouse(@PathVariable("id") UUID id) {
         Warehouse warehouse = warehouseRepo.findById(id).orElseThrow(() -> new DataNotFoundEx("Warehouse not found for delete!"));
 
+        LOGGER.info("---warehouse: ");
+        System.out.println(warehouse);
+
+        LOGGER.info("---delete id: ");
+        System.out.println(warehouse.getWarehouseId());
+//todo fix problem
         warehouseService.deleteById(warehouse.getWarehouseId());
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

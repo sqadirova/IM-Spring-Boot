@@ -42,7 +42,7 @@ public class Warehouse {
     @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "logistic_center_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+//    @OnDelete(action = OnDeleteAction.CASCADE)
     private LogisticCenter logisticCenter;
 
     @ToString.Exclude

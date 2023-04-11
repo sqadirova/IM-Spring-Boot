@@ -44,6 +44,7 @@ public class InventoryController {
     public ResponseEntity<Inventory> createInventory(@RequestBody Inventory inventory) {
         Inventory createdInventory = inventoryService.save(inventory);
         //todo add save foreign keys like - inventory_category_id, logistic_center_id, warehosue_id, location_id
+        //todo add checks for logistic center->warehouse->location
         return new ResponseEntity<>(createdInventory, HttpStatus.CREATED);
     }
 

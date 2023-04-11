@@ -1,4 +1,4 @@
-package com.example.inventorymanagement.dto;
+package com.example.inventorymanagement.dto.request;
 
 import lombok.*;
 
@@ -9,7 +9,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class WarehouseLocationDTO {
+public class WarehouseLocationRequestDTO {
     private UUID warehouseId;
 
     private UUID locationId;
