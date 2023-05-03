@@ -34,7 +34,7 @@ public class LocationController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Location> getLocationByID(@PathVariable("id") UUID id) {
-        return new ResponseEntity<>(locationService.getById(id).orElseThrow(() -> new DataNotFoundEx("Location with " + id + " is not found!")), HttpStatus.OK);
+        return new ResponseEntity<>(locationService.getById(id).orElseThrow(() -> new DataNotFoundEx("Location with is not found!","Location with " + id + " is not found!")), HttpStatus.OK);
     }
 
     //   todo  need to be test
@@ -69,7 +69,7 @@ public class LocationController {
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<Location> updateLocation(@PathVariable("id") UUID id, @RequestBody Location newLocation) {
-        Location location = locationRepo.findById(id).orElseThrow(() -> new DataNotFoundEx("Location not found for update!"));
+        Location location = locationRepo.findById(id).orElseThrow(() -> new DataNotFoundEx("Location not found for update!",""));
 
         location.setLocationName(newLocation.getLocationName());
         //todo add warehouse_location relation to table
@@ -81,7 +81,7 @@ public class LocationController {
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Location> deleteLocation(@PathVariable("id") UUID id) {
-        Location location = locationRepo.findById(id).orElseThrow(() -> new DataNotFoundEx("Location not found for delete!"));
+        Location location = locationRepo.findById(id).orElseThrow(() -> new DataNotFoundEx("Location not found for delete!",""));
 
         locationService.deleteById(location.getLocationId());
 

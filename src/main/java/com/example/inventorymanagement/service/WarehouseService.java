@@ -29,9 +29,9 @@ public class WarehouseService {
 
     public boolean createWarehouseLocationRelation(WarehouseLocationRequestDTO warehouseLocationRequestDto) {
         Warehouse warehouse = warehouseRepo.findById(warehouseLocationRequestDto.getWarehouseId())
-                .orElseThrow(() -> new DataNotFoundEx("Warehouse don't found"));
+                .orElseThrow(() -> new DataNotFoundEx("Warehouse don't found",""));
         Location location = locationRepo.findById(warehouseLocationRequestDto.getLocationId())
-                .orElseThrow(() -> new DataNotFoundEx("Location don't found"));
+                .orElseThrow(() -> new DataNotFoundEx("Location don't found",""));
 
 //        if (warehouse.isPresent() && location.isPresent()) {
 //            warehouseRepo.createWarehouseLocationRelation(warehouse.get().getWarehouseId(), location.get().getLocationId());

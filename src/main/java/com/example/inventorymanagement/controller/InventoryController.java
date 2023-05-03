@@ -35,7 +35,7 @@ public class InventoryController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Inventory> getInventoryByID(@PathVariable("id") UUID id) {
-        Inventory inventory = inventoryService.getById(id).orElseThrow(() -> new DataNotFoundEx("Inventory with " + id + " is not found!"));
+        Inventory inventory = inventoryService.getById(id).orElseThrow(() -> new DataNotFoundEx("Inventory with is not found!","Inventory with " + id + " is not found!"));
 
         return new ResponseEntity<>(inventory, HttpStatus.OK);
     }
@@ -43,14 +43,13 @@ public class InventoryController {
     @PostMapping
     public ResponseEntity<Inventory> createInventory(@RequestBody Inventory inventory) {
         Inventory createdInventory = inventoryService.save(inventory);
-        //todo add save foreign keys like - inventory_category_id, logistic_center_id, warehosue_id, location_id
-        //todo add checks for logistic center->warehouse->location
+
         return new ResponseEntity<>(createdInventory, HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<Inventory> updateInventory(@PathVariable("id") UUID id, @RequestBody Inventory newInventory) {
-        Inventory inventory = inventoryRepo.findById(id).orElseThrow(() -> new DataNotFoundEx("Inventory category not found for update!"));
+        Inventory inventory = inventoryRepo.findById(id).orElseThrow(() -> new DataNotFoundEx("Inventory category not found for update!",""));
 
         inventory.setInventoryName(newInventory.getInventoryName());
         inventory.setInventoryRFID(newInventory.getInventoryRFID());
@@ -69,7 +68,7 @@ public class InventoryController {
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deleteInventory(@PathVariable("id") UUID id) {
-        Inventory inventoryForDelete = inventoryRepo.findById(id).orElseThrow(() -> new DataNotFoundEx("Inventory with " + id + " is not found!"));
+        Inventory inventoryForDelete = inventoryRepo.findById(id).orElseThrow(() -> new DataNotFoundEx("Inventory is not found!","Inventory with " + id + " is not found!"));
 
         LOGGER.info("Contact Administrator to delete inventory.");
         return new ResponseEntity<>("Contact Administrator to delete inventory with this id: " + inventoryForDelete.getInventoryId(), HttpStatus.BAD_REQUEST);

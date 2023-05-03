@@ -44,7 +44,7 @@ public class LogisticCenterController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<LogisticCenter> getLogisticCenterByID(@PathVariable("id") UUID id) {
         return new ResponseEntity<>(
-                logisticCenterService.getById(id).orElseThrow(() -> new DataNotFoundEx("Logistic center with " + id + " is not found!")),
+                logisticCenterService.getById(id).orElseThrow(() -> new DataNotFoundEx("Logistic center is not found!","Logistic center with " + id + " is not found!")),
                 HttpStatus.OK
         );
     }
@@ -57,7 +57,7 @@ public class LogisticCenterController {
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<LogisticCenter> updateLogisticCenter(@PathVariable("id") UUID id, @RequestBody LogisticCenter newLogisticCenter) {
-        LogisticCenter logisticCenter = logisticCenterRepo.findById(id).orElseThrow(() -> new DataNotFoundEx("Logistic Center not found for update!"));
+        LogisticCenter logisticCenter = logisticCenterRepo.findById(id).orElseThrow(() -> new DataNotFoundEx("Logistic Center not found for update!",""));
 
         logisticCenter.setLogisticCenterName(newLogisticCenter.getLogisticCenterName());
 
@@ -68,7 +68,7 @@ public class LogisticCenterController {
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<LogisticCenter> deleteInventoryCategory(@PathVariable("id") UUID id) {
-        LogisticCenter logisticCenter = logisticCenterRepo.findById(id).orElseThrow(() -> new DataNotFoundEx("Logistic Center not found for delete!"));
+        LogisticCenter logisticCenter = logisticCenterRepo.findById(id).orElseThrow(() -> new DataNotFoundEx("Logistic Center not found for delete!",""));
 
         logisticCenterService.deleteById(logisticCenter.getLogisticCenterId());
 

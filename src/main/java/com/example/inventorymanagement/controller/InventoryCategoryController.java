@@ -36,7 +36,7 @@ public class InventoryCategoryController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<InventoryCategory> getInventoryCategoryByID(@PathVariable("id") UUID id) {
-        InventoryCategory inventoryCategory = inventoryCategoryService.getById(id).orElseThrow(() -> new DataNotFoundEx("Inventory category with " + id + " is not found!"));
+        InventoryCategory inventoryCategory = inventoryCategoryService.getById(id).orElseThrow(() -> new DataNotFoundEx("Inventory category is not found!","Inventory category with " + id + " is not found!"));
 
         return new ResponseEntity<>(inventoryCategory, HttpStatus.OK);
     }
@@ -49,7 +49,7 @@ public class InventoryCategoryController {
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<InventoryCategory> updateInventoryCategory(@PathVariable("id") UUID id, @RequestBody InventoryCategory newInvCategory) {
-        InventoryCategory inventoryCategory = inventoryCategoryRepo.findById(id).orElseThrow(() -> new DataNotFoundEx("Inventory category not found for update!"));
+        InventoryCategory inventoryCategory = inventoryCategoryRepo.findById(id).orElseThrow(() -> new DataNotFoundEx("Inventory category not found for update!",""));
 
         inventoryCategory.setInventoryCategoryName(newInvCategory.getInventoryCategoryName());
 
@@ -62,7 +62,7 @@ public class InventoryCategoryController {
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<InventoryCategory> deleteInventoryCategory(@PathVariable("id") UUID id) {
-        InventoryCategory inventoryCategory = inventoryCategoryRepo.findById(id).orElseThrow(() -> new DataNotFoundEx("Inventory category not found for delete!"));
+        InventoryCategory inventoryCategory = inventoryCategoryRepo.findById(id).orElseThrow(() -> new DataNotFoundEx("Inventory category not found for delete!",""));
 
         inventoryCategoryService.deleteById(inventoryCategory.getInventoryCategoryId());
 

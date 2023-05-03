@@ -50,7 +50,7 @@ public class WarehouseController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<Warehouse> getWarehouseByID(@PathVariable("id") UUID id) {
         Warehouse warehouse = warehouseService.getById(id)
-                .orElseThrow(() -> new DataNotFoundEx("Warehouse with " + id + " is not found!"));
+                .orElseThrow(() -> new DataNotFoundEx("Warehouse is not found!","Warehouse with " + id + " is not found!"));
 //        System.out.println(warehouse.getLogisticCenter());
 //        System.out.println(warehouse.getLocations());
         return new ResponseEntity<>(warehouse, HttpStatus.OK);
@@ -79,7 +79,7 @@ public class WarehouseController {
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<Warehouse> updateWarehouse(@PathVariable("id") UUID id, @RequestBody Warehouse newWarehouse) {
-        Warehouse warehouse = warehouseRepo.findById(id).orElseThrow(() -> new DataNotFoundEx("Warehouse not found for update!"));
+        Warehouse warehouse = warehouseRepo.findById(id).orElseThrow(() -> new DataNotFoundEx("Warehouse not found for update!",""));
 
         //todo need to be testing
         warehouse.setWarehouseName(newWarehouse.getWarehouseName());
@@ -92,7 +92,7 @@ public class WarehouseController {
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Warehouse> deleteWarehouse(@PathVariable("id") UUID id) {
-        Warehouse warehouse = warehouseRepo.findById(id).orElseThrow(() -> new DataNotFoundEx("Warehouse not found for delete!"));
+        Warehouse warehouse = warehouseRepo.findById(id).orElseThrow(() -> new DataNotFoundEx("Warehouse not found for delete!",""));
 
         LOGGER.info("---warehouse: ");
         System.out.println(warehouse);

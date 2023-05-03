@@ -45,25 +45,25 @@ public class Inventory {
     @UpdateTimestamp
     private Date updatedAt;
 
-    @JsonBackReference
+//    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "inventory_category_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private InventoryCategory inventoryCategory;
 
-    @JsonBackReference
+//    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "logistic_center_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private LogisticCenter logisticCenter;
 
-    @JsonBackReference
+//    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "warehouse_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Warehouse warehouse;
 
-    @JsonBackReference
+//    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "location_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
