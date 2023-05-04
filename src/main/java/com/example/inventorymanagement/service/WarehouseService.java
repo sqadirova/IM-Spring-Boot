@@ -2,9 +2,11 @@ package com.example.inventorymanagement.service;
 
 import com.example.inventorymanagement.dto.request.WarehouseLocationRequestDTO;
 import com.example.inventorymanagement.entity.Location;
+import com.example.inventorymanagement.entity.LogisticCenter;
 import com.example.inventorymanagement.entity.Warehouse;
 import com.example.inventorymanagement.expection.DataNotFoundEx;
 import com.example.inventorymanagement.repository.LocationRepo;
+import com.example.inventorymanagement.repository.LogisticCenterRepo;
 import com.example.inventorymanagement.repository.WarehouseRepo;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +18,24 @@ import java.util.UUID;
 public class WarehouseService {
     private final WarehouseRepo warehouseRepo;
     private final LocationRepo locationRepo;
+    private final LogisticCenterRepo logisticCenterRepo;
 
     public WarehouseService(WarehouseRepo warehouseRepo,
-                            LocationRepo locationRepo) {
+                            LocationRepo locationRepo,
+                            LogisticCenterRepo logisticCenterRepo) {
         this.warehouseRepo = warehouseRepo;
         this.locationRepo = locationRepo;
+        this.logisticCenterRepo = logisticCenterRepo;
     }
 
     public Warehouse save(Warehouse warehouse) {
+        //todo checks for logisticCenterId exists or not?
+
+        Optional<LogisticCenter> logisticCenter = logisticCenterRepo.findById(warehouse.getLogisticCenter().getLogisticCenterId());
+        if (logisticCenter.isEmpty()){
+            throw new DataNotFoundEx("Can not find logistic center.","Can not find logistic center.");
+        }
+
         return warehouseRepo.save(warehouse);
     }
 
