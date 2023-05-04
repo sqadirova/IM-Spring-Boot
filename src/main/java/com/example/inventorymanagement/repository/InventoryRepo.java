@@ -17,5 +17,5 @@ public interface InventoryRepo extends JpaRepository<Inventory, UUID> {
 
     Optional<Inventory> findFirstByInventoryRFID(String rfid);
 
-    Optional<Inventory> findFirstByLocation(Location location);
+    Optional<Inventory> findFirstByLocation_LocationId(UUID locationId);
 }

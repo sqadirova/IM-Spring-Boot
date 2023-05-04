@@ -33,7 +33,7 @@ public class InventoryService {
 
 
         //todo add checks for logistic center->warehouse->(location unique)
-        Optional<Inventory> firstByLocation = inventoryRepo.findFirstByLocation(inventory.getLocation());
+        Optional<Inventory> firstByLocation = inventoryRepo.findFirstByLocation_LocationId(inventory.getLocation().getLocationId());
         if (firstByLocation.isPresent()) {
             throw new DataDuplicationEx("Inventory in this location already exists", "Location field duplicate");
         }
