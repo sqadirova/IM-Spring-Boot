@@ -39,7 +39,7 @@ public class InventoryService {
     public Inventory save(Inventory inventory) {
         System.out.println("---inventory for save:");
         System.out.println(inventory);
-        //todo add save foreign keys like - inventory_category_id, logistic_center_id, warehosue_id, location_id
+        //todo add save foreign keys like - inventory_category_id, logistic_center_id, warehouse_id, location_id?
 
         //check for unique rfid
         Optional<Inventory> firstByInventoryName = inventoryRepo.findFirstByInventoryRFID(inventory.getInventoryRFID());
@@ -77,7 +77,8 @@ public class InventoryService {
         }
 
         //todo fix that
-        Optional<WarehouseLocationResponseDTO> warehouseLocationRelation = warehouseRepo.getWarehouseLocationRelationByLocationId(location.get().getLocationId());
+        Optional<WarehouseLocationResponseDTO> warehouseLocationRelation =
+                warehouseRepo.findWarehouseLocationByLocationId(location.get().getLocationId());
         if (warehouseLocationRelation.isEmpty()) {
             throw new DataNotFoundEx("Can not find this location in the warehouse!", "Please check the warehouse-location table!");
         }

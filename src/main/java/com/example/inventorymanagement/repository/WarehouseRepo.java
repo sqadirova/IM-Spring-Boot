@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,10 +28,11 @@ public interface WarehouseRepo extends JpaRepository<Warehouse, UUID> {
     void createWarehouseLocationRelation(@Param("warehouseId") UUID warehouseId,
                                          @Param("locationId") UUID locationId);
 
-//    @Transactional
+    //    @Transactional
 //    @Modifying
-    @Query(value = "select wl.warehouse_id as warehouse_id,wl.location_id as location_id from warehouse_location wl where wl.location_id=:locationId", nativeQuery = true)
-    Optional<WarehouseLocationResponseDTO> getWarehouseLocationRelationByLocationId(@Param("locationId") UUID locationId);
+    @Query(value = "select wl.warehouse_id,wl.location_id from warehouse_location wl where wl.location_id=:location_id",
+            nativeQuery = true)
+    Optional<WarehouseLocationResponseDTO> findWarehouseLocationByLocationId(@Param("location_id") UUID location_id);
 
 
 }
