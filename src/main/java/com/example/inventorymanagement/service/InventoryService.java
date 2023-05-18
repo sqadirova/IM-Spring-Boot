@@ -1,21 +1,15 @@
 package com.example.inventorymanagement.service;
 
-import com.example.inventorymanagement.dto.response.WarehouseLocationResponseDTO;
-import com.example.inventorymanagement.entity.Inventory;
-import com.example.inventorymanagement.entity.Location;
-import com.example.inventorymanagement.entity.LogisticCenter;
-import com.example.inventorymanagement.entity.Warehouse;
+import com.example.inventorymanagement.entity.*;
 import com.example.inventorymanagement.expection.DataDuplicationEx;
 import com.example.inventorymanagement.expection.DataNotFoundEx;
-import com.example.inventorymanagement.repository.InventoryRepo;
-import com.example.inventorymanagement.repository.LocationRepo;
-import com.example.inventorymanagement.repository.LogisticCenterRepo;
-import com.example.inventorymanagement.repository.WarehouseRepo;
+import com.example.inventorymanagement.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -24,23 +18,22 @@ public class InventoryService {
     private final LogisticCenterRepo logisticCenterRepo;
     private final WarehouseRepo warehouseRepo;
     private final LocationRepo locationRepo;
+    private final InventoryCategoryRepo inventoryCategoryRepo;
 
     @Autowired
     public InventoryService(InventoryRepo inventoryRepo,
                             LogisticCenterRepo logisticCenterRepo,
                             WarehouseRepo warehouseRepo,
-                            LocationRepo locationRepo) {
+                            LocationRepo locationRepo,
+                            InventoryCategoryRepo inventoryCategoryRepo) {
         this.inventoryRepo = inventoryRepo;
         this.logisticCenterRepo = logisticCenterRepo;
         this.warehouseRepo = warehouseRepo;
         this.locationRepo = locationRepo;
+        this.inventoryCategoryRepo = inventoryCategoryRepo;
     }
 
     public Inventory save(Inventory inventory) {
-        System.out.println("---inventory for save:");
-        System.out.println(inventory);
-        //todo add save foreign keys like - inventory_category_id, logistic_center_id, warehouse_id, location_id?
-
         //check for unique rfid
         Optional<Inventory> firstByInventoryName = inventoryRepo.findFirstByInventoryRFID(inventory.getInventoryRFID());
         if (firstByInventoryName.isPresent()) {
@@ -48,12 +41,17 @@ public class InventoryService {
         }
 
         //checks for location unique or not
-        Optional<Inventory> firstByLocation = inventoryRepo.findFirstByLocation_LocationId(inventory.getLocation().getLocationId());
-        if (firstByLocation.isPresent()) {
+        Optional<Inventory> inventoryByLocation = inventoryRepo.findFirstByLocation_LocationId(inventory.getLocation().getLocationId());
+        if (inventoryByLocation.isPresent()) {
             throw new DataDuplicationEx("Inventory in this location already exists", "Location field duplicate");
         }
 
-        //checks for logisticCenterId,warehouseId,locationId exists or not?
+        //checks for logisticCenterId,warehouseId,locationId,inventory_category_id exists or not
+        Optional<InventoryCategory> inventoryCategory = inventoryCategoryRepo.findById(inventory.getInventoryCategory().getInventoryCategoryId());
+        if (inventoryCategory.isEmpty()) {
+            throw new DataDuplicationEx("Inventory Category not found!", "Inventory Category not found!");
+        }
+
         Optional<LogisticCenter> logisticCenter = logisticCenterRepo.findById(inventory.getLogisticCenter().getLogisticCenterId());
         if (logisticCenter.isEmpty()) {
             throw new DataNotFoundEx("Logistic Center not found", "Logistic Center not found");
@@ -69,17 +67,15 @@ public class InventoryService {
             throw new DataNotFoundEx("Location not found!", "Location not found!");
         }
 
-        //todo add checks for logistic center->warehouse->location relations
+        //add checks for logistic center->warehouse->location relations
         if (!warehouse.get().getLogisticCenter().getLogisticCenterId().equals(logisticCenter.get().getLogisticCenterId())
         ) {
             throw new DataNotFoundEx("Can not found this warehouse in this logistic center",
                     "Please check the relation between logisticCenter and warehouse.");
         }
 
-        //todo fix that
-        Optional<WarehouseLocationResponseDTO> warehouseLocationRelation =
-                warehouseRepo.findWarehouseLocationByLocationId(location.get().getLocationId());
-        if (warehouseLocationRelation.isEmpty()) {
+        Set<Location> locationsOfWarehouse = warehouse.get().getLocations();
+        if (locationsOfWarehouse.stream().noneMatch(l -> l.getLocationId().equals(location.get().getLocationId()))) {
             throw new DataNotFoundEx("Can not find this location in the warehouse!", "Please check the warehouse-location table!");
         }
 
@@ -87,10 +83,6 @@ public class InventoryService {
     }
 
     public List<Inventory> getAll() {
-//        System.out.println("---- Find all and order by category: ");
-//        System.out.println(inventoryRepo.findAllByOrderByInventoryCategory());
-
-        //inventoryRepo.findAll();
         return inventoryRepo.findAllByOrderByInventoryCategory();
     }
 
