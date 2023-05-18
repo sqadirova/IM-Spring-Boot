@@ -1,6 +1,6 @@
 package com.example.inventorymanagement.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
@@ -45,25 +45,25 @@ public class Inventory {
     @UpdateTimestamp
     private Date updatedAt;
 
-//    @JsonBackReference
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "inventory_category_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private InventoryCategory inventoryCategory;
 
-//    @JsonBackReference
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "logistic_center_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private LogisticCenter logisticCenter;
 
-//    @JsonBackReference
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "warehouse_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Warehouse warehouse;
 
-//    @JsonBackReference
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "location_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
